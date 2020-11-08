@@ -160,19 +160,18 @@ function act() {
         food.x = random(canvas.width / 10 - 1) * 10;
         food.y = random(canvas.height / 10 - 1) * 10;
         }
-
+        // Move Body
+        for (i = body.length - 1; i > 0; i -= 1) {
+            body[i].x = body[i - 1].x;
+            body[i].y = body[i - 1].y;
+        }
+        
         // Body Intersects
         for (i = 2, l = body.length; i < l; i += 1) {
             if (body[0].intersects(body[i])) {
                 gameover = true;
                 pause = true;
             }
-        }
-
-        // Move Body
-        for (i = body.length - 1; i > 0; i -= 1) {
-            body[i].x = body[i - 1].x;
-            body[i].y = body[i - 1].y;
         }
 
          // Wall Intersects
