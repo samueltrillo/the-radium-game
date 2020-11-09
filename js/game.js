@@ -136,7 +136,7 @@
     }
 
     function run() {
-        setTimeout(run,30);
+        setTimeout(run,50);
         if (scenes.length) {
             scenes[currentScene].act();
         }
