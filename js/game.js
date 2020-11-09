@@ -18,9 +18,11 @@
         // player = undefined,
         body = [],
         food = undefined,
+        bonus = undefined,
         // wall = new Array(),
         iBody = new Image(),
         iFood = new Image(),
+        iBonus = new Image(),
         aEat = new Audio(),
         aDie = new Audio(),
 
@@ -153,6 +155,7 @@
         // Load assets
         iBody.src = 'assets/body.png';
         iFood.src = 'assets/fruit.png';
+        iBonus.src = 'assets/lemon.png';
         aEat.src = 'assets/chomp.oga';
         aDie.src = 'assets/dies.oga';
 
@@ -168,6 +171,7 @@
         // Create body[0] and food
         body[0] = new Rectangle(40, 40, 10, 10);
         food = new Rectangle(80, 80, 10, 10);
+        bonus = new Rectangle(80, 80, 10, 10);
 
         // Load buffer
         buffer = document.createElement('canvas');
@@ -221,6 +225,8 @@
             body[0].y = 40;
             food.x = random(canvas.width / 10 - 1) * 10;
             food.y = random(canvas.height / 10 - 1) * 10;
+            bonus.x = random(canvas.width / 10 - 1) * 10;
+            bonus.y = random(canvas.height / 10 - 1) * 10;
             gameover = false;
             body.length = 0;
             body.push(new Rectangle(40, 40, 10, 10));
@@ -242,6 +248,11 @@
         // Draw food
         ctx.strokeStyle = '#f00';
         food.drawImage(ctx, iFood);
+
+        // Draw bonus
+        ctx.strokeStyle = '#f00';
+        bonus.drawImage(ctx, iBonus);
+        
 
         // Debug last key pressed
         ctx.fillStyle = '#fff';
@@ -338,6 +349,15 @@
             food.y = random(canvas.height / 10 - 1) * 10;
             aEat.play();
             }
+            
+            // bonus Intersects
+            if (body[0].intersects(bonus)) {
+                score += 3;
+                bonus.x = random(canvas.width / 10 - 1) * 10;
+                bonus.y = random(canvas.height / 10 - 1) * 10;
+                aEat.play();
+            }
+
             // Move Body
             for (i = body.length - 1; i > 0; i -= 1) {
                 body[i].x = body[i - 1].x;
