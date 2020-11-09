@@ -104,6 +104,21 @@
         act: function () {}
     };
 
+    //"Send score" async function
+    function sendInfo (score) {
+        fetch ("https://jsonplaceholder.typicode.com/posts", {
+            method: 'POST',
+            body: JSON.stringify(score)
+        })
+            .then (function(reponse) {
+                console.log ("Score sent sucessfully");
+                console.log (reponse);
+            })
+            .catch (function(error) {
+                console.log ("Error");
+            })
+    }
+
     function loadScene(scene) {
         currentScene = scene.id;
         scenes[currentScene].load();
@@ -184,11 +199,6 @@
         run();
         repaint();
 
-        // Create walls
-        // wall.push(new Rectangle(100, 50, 10, 10));
-        // wall.push(new Rectangle(100, 100, 10, 10));
-        // wall.push(new Rectangle(200, 50, 10, 10));
-        // wall.push(new Rectangle(200, 100, 10, 10));
     }
 
  
@@ -251,14 +261,11 @@
 
         // Draw bonus
         ctx.strokeStyle = '#f00';
-        //bonus.drawImage(ctx, iBonus);
-        window.setTimeout(bonus.drawImage(ctx, iBonus), random(300)+5000);
-        
+        window.setTimeout(bonus.drawImage(ctx, iBonus), random(5000));
 
         // Debug last key pressed
         ctx.fillStyle = '#fff';
 
-        //ctx.fillText('Last Press: '+lastPress,0,20);
         // Draw score
         ctx.fillText('Score: ' + score, 0, 10);
         
@@ -272,12 +279,6 @@
             }
             ctx.textAlign = 'left';
         }
-
-        // Draw walls
-        // ctx.fillStyle = '#999';
-        // for (i = 0, l = wall.length; i < l; i += 1) {
-        //     wall[i].fill(ctx);
-        // }
 
         // Draw score
         ctx.fillStyle = '#fff';
@@ -359,8 +360,9 @@
                 setTimeout(function bon () {
                     bonus.x = random(canvas.width / 10 - 1) * 10;
                     bonus.y = random(canvas.height / 10 - 1) * 10;
-                }, random(3000)+5000) 
+                }, random(5000)) 
                 aEat.play();
+                sendInfo(score);
             }
            
 
@@ -379,19 +381,6 @@
                     addHighscore(score);
                 }
             }
-
-            // Wall Intersects
-            // for (i = 0, l = wall.length; i < l; i += 1) {
-            //     if (food.intersects(wall[i])) {
-            //         food.x = random(canvas.width / 10 - 1) * 10;
-            //         food.y = random(canvas.height / 10 - 1) * 10;
-            //     }
-
-            //     if (body[0].intersects(wall[i])) {
-            //         pause = true;
-            //     }
-
-            // }
         }
         
         // Pause/Unpause
@@ -464,9 +453,6 @@
         }
     };
         
-  
-    
-
     mainScene.load();
     window.addEventListener('resize', resize, false);
     window.addEventListener('load', init, false);
