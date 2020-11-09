@@ -251,7 +251,8 @@
 
         // Draw bonus
         ctx.strokeStyle = '#f00';
-        bonus.drawImage(ctx, iBonus);
+        //bonus.drawImage(ctx, iBonus);
+        window.setTimeout(bonus.drawImage(ctx, iBonus), random(300)+5000);
         
 
         // Debug last key pressed
@@ -349,14 +350,19 @@
             food.y = random(canvas.height / 10 - 1) * 10;
             aEat.play();
             }
-            
-            // bonus Intersects
+
+            // Bonus Intersects
             if (body[0].intersects(bonus)) {
                 score += 3;
-                bonus.x = random(canvas.width / 10 - 1) * 10;
-                bonus.y = random(canvas.height / 10 - 1) * 10;
+                bonus.x = canvas.width+1;
+                bonus.y = null;
+                setTimeout(function bon () {
+                    bonus.x = random(canvas.width / 10 - 1) * 10;
+                    bonus.y = random(canvas.height / 10 - 1) * 10;
+                }, random(3000)+5000) 
                 aEat.play();
             }
+           
 
             // Move Body
             for (i = body.length - 1; i > 0; i -= 1) {
@@ -457,6 +463,9 @@
             lastPress = null;
         }
     };
+        
+  
+    
 
     mainScene.load();
     window.addEventListener('resize', resize, false);
