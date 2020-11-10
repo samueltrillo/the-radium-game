@@ -19,7 +19,7 @@
         body = [],
         food = undefined,
         bonus = undefined,
-        // wall = new Array(),
+        wall = new Array(),
         iBody = new Image(),
         iFood = new Image(),
         iBonus = new Image(),
@@ -188,6 +188,12 @@
         food = new Rectangle(80, 80, 10, 10);
         bonus = new Rectangle(80, 80, 10, 10);
 
+        // Create walls
+        wall.push(new Rectangle(100, 50, 10, 10));
+        wall.push(new Rectangle(100, 100, 10, 10));
+        wall.push(new Rectangle(200, 50, 10, 10));
+        wall.push(new Rectangle(200, 100, 10, 10));
+
         // Load buffer
         buffer = document.createElement('canvas');
         bufferCtx = buffer.getContext('2d');
@@ -278,6 +284,12 @@
                 ctx.fillText('PAUSE', 150, 75);
             }
             ctx.textAlign = 'left';
+        }
+
+        // Draw walls
+        ctx.fillStyle = '#999';
+        for (i = 0, l = wall.length; i < l; i += 1) {
+             wall[i].fill(ctx);
         }
 
         // Draw score
@@ -380,6 +392,17 @@
                     aDie.play();
                     addHighscore(score);
                 }
+            }
+
+             // Wall Intersects
+            for (i = 0, l = wall.length; i < l; i += 1) {
+                if (food.intersects(wall[i])) {
+                    food.x = random(canvas.width / 10 - 1) * 10;
+                    food.y = random(canvas.height / 10 - 1) * 10;
+                } if (body[0].intersects(wall[i])) {
+                    gameover = true;
+                    pause = true;
+                }                     
             }
         }
         
